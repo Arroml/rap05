@@ -1,4 +1,4 @@
-bd// Name:		Matrikelnummer:
+// Name:		Matrikelnummer:
 // Name:		Matrikelnummer:
 // Datum:
 
@@ -7,7 +7,13 @@ bd// Name:		Matrikelnummer:
 	.align	2		@ sorgt dafuer, dass nachfolgende Anweisungen auf einer durch 4 teilbaren Adresse liegen
 				@ unteren 2 Bit sind 0
 	.global	main		@ nimmt das Symbol main in die globale Sysmboltabelle auf
+	.global up1
+	.global up2
+	.global up3
 	.type	main,function
+	
+
+	
 main:
 	push	{lr}
 
@@ -17,17 +23,14 @@ main:
 	
 	pop		{pc}
 
-// UP1 benutzt nur Scratchregister und stellt keine Blattroutine dar (ruft somit weitere
+// UP1 benutzt nicht Scratchregister und stellt keine Blattroutine dar (ruft somit weitere
 // Unterprogramme auf)	
-up1:
-	
+up1:	
 	push {r4, lr}   
 	mov r4, #42           @ Beispielhafte Nutzung von r4
-	bl UP3               @ Aufruf weiterer Funktion
+	bl up3               @ Aufruf weiterer Funktion
 	pop {r4, lr}          @ Wiederherstellen
-	bx lr
-
-	
+	bx lr			@ zurückspringen auf das link Register
 
 
 
@@ -42,9 +45,9 @@ up2:
 
 //UP3 benutzt Nicht-Scratchregister und stellt keine Blattroutine dar
 up3:
-	push {lr}            @ Muss lr sichern, weil sie UP1 aufruft
+	push {lr}            @ Muss lr sichern, weil UP1 aufgerufen wird
 	mov r0, #1
-	bl UP1
+	bl up1
 	pop {lr}
 	bx lr
 
